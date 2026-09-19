@@ -76,3 +76,43 @@ jobs:
       - name: Push Docker image
         run: |
           docker push mahmoudeng/white-backend:${{ github.sha }}
+
+
+  # =========================
+  # 3. Deploy
+  # =========================
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy to Server 1
+        run: |
+          ssh -i <(echo "${{ secrets.PROD_SERVER_1_SSH_KEY }}") \
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.PROD_SERVER_1_USER }}@${{ secrets.PROD_SERVER_1_HOST }} << EOF
+
+            cd ~/white
+
+            export IMAGE_TAG=${{ github.sha }}
+
+            docker compose pull
+            docker compose up -d
+
+          EOF
+
+      - name: Deploy to Server 2
+        run: |
+          ssh -i <(echo "${{ secrets.PROD_SERVER_2_SSH_KEY }}") \
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.PROD_SERVER_2_USER }}@${{ secrets.PROD_SERVER_2_HOST }} << EOF
+
+            cd ~/white
+
+            export IMAGE_TAG=${{ github.sha }}
+
+            docker compose pull
+            docker compose up -d
+
+          EOF
