@@ -1,7 +1,7 @@
 services:
 
   backend:
-    image: mahmoudeng/white-backend:v1
+    image: mahmoudeng/white-backend:${IMAGE_TAG}
     container_name: white-backend-container
     restart: unless-stopped
     env_file:
