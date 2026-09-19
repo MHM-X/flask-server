@@ -31,6 +31,7 @@ jobs:
 
     env:
       DATABASE_URL: postgresql://test_user:test_password@localhost:5432/white_test_db
+      PYTHONPATH: .
 
     steps:
 
