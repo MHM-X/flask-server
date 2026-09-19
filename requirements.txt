@@ -3,3 +3,4 @@ Flask-SQLAlchemy
 psycopg
 gunicorn
 python-dotenv
+pytest
