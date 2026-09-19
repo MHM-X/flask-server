@@ -1,0 +1,25 @@
+services:
+
+  backend:
+    image: mahmoudeng/white-backend:v1
+    container_name: white-backend-container
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - white-network
+
+  nginx:
+    image: mahmoudeng/white-nginx:v1
+    container_name: white-nginx-container
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - white-network
+
+networks:
+  white-network:
+    driver: bridge
